@@ -1,0 +1,19 @@
+{
+    "name": "wennlys/no-framework-cms-backend",
+    "description": "A no framework cms backend :P.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wennlys",
+            "email": "wennlys@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    }
+
+}
