@@ -1,5 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace CMS\Tests\App;
 
@@ -9,6 +10,5 @@ class ArticleShowTest extends TestCase
 {
     public function update()
     {
-
     }
 }
