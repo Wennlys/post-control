@@ -3,17 +3,26 @@
     "description": "A no framework cms backend :P.",
     "type": "project",
     "license": "MIT",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "wennlys",
             "email": "wennlys@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "CMS\\Source\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CMS\\Tests\\": "tests/"
+        }
+    },
     "require": {
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2"
     }
-
 }
