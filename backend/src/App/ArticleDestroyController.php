@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CMS\Source\App;
+namespace Source\App;
 
 class ArticleDestroyController
 {

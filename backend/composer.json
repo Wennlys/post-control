@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "CMS\\Source\\": "src/"
+            "Source\\": "src/"
         },
         "files": [
             "src/Global/Configs.php"
@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "CMS\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "require": {
