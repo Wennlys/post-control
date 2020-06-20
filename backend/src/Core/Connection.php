@@ -38,7 +38,7 @@ class Connection
     final private function __construct()
     {
             $this->conn = new PDO(
-                "mysql:host=" . SQL_DB['HOST'] . ";dbname=" . SQL_DB['NAME'],
+                "pgsql:host=" . SQL_DB['HOST'] . ";dbname=" . SQL_DB['NAME'],
                 SQL_DB['USER'],
                 SQL_DB['PASS'],
                 self::OPTIONS
