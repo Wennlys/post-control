@@ -13,7 +13,7 @@ class ArticleIndexTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client(["base_uri" => ENV_URI]);
+        $this->client = new Client(['base_uri' => ENV_URI]);
     }
 
    /**
@@ -21,8 +21,8 @@ class ArticleIndexTest extends TestCase
     */
     public function itShouldReturnAllStoredArticles(): void
     {
-        $response = $this->client->request("GET", "/articles");
-        $response = (array) json_decode((string) $response->getBody());
-        $this->assertArrayHasKey('id', $response);
+        $response = $this->client->request('GET', '/articles');
+        $response = json_decode((string) $response->getBody());
+        $this->assertObjectHasAttribute('id', $response);
     }
 }

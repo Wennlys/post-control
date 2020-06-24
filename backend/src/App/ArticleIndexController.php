@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Source\App;
 
-use Source\Core\Connection;
 use Laminas\Diactoros\Response;
+use Source\Core\Connection;
 use Source\Model\ArticleDAO;
 
 class ArticleIndexController
@@ -16,30 +16,26 @@ class ArticleIndexController
     /** @var Response $response */
     private Response $response;
 
-    /** @var Connection $dbConnection */
-    private Connection $dbConnection;
-
     /**
-     * ArticleIndexController contructor.
+     * ArticleIndexController constructor.
      *
-     * @param Response $response
+     * @param Connection $dbInstance
+     * @param ResponseInterface $response
      */
-    public function __construct(Connection $dbConnection, ArticleDAO $articleDao, Response $response)
+    public function __construct(Connection $dbInstance, Response $response)
     {
-        $this->dbConnection = $dbConnection;
-        $this->articleDao = $articleDao;
         $this->response = $response;
+        $this->articleDao = new ArticleDAO($dbInstance);
     }
 
     /**
      * List all specified articles.
      *
-     * @return void
+     * @return Response
      */
     public function index(): Response
     {
-        $a = $this->articleDao;
-        $response = [];
+        $response = $this->articleDao->findAll();
         $this->response->getBody()->write(json_encode($response));
         return $this->response->withStatus(200);
     }

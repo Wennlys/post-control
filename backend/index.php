@@ -8,12 +8,9 @@ use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
-use League\Container\Container;
 use League\Route\Router;
 use League\Route\Strategy\JsonStrategy;
-use Source\App\ArticleIndexController;
 use Source\Core\Connection;
-use Source\Model\ArticleDAO;
 
 $request = ServerRequestFactory::fromGlobals(
     $_SERVER,
@@ -25,29 +22,40 @@ $request = ServerRequestFactory::fromGlobals(
 
 $responseFactory = new ResponseFactory();
 $strategy = new JsonStrategy($responseFactory);
-
-$container = new Container();
 $router = new Router();
 
-$response = Response::class;
-$dbConnection = Connection::class;
-$articleDao = ArticleDAO::class;
+$response = new Response();
+$dbInstace = Connection::getInstance();
 
-$dbInstance = Connection::getInstance();
+$router->map(
+    'GET',
+    '/articles',
+    [new Source\App\ArticleIndexController($dbInstace, $response), 'index']
+);
 
-$container->add($response);
-$container->add($dbConnection);
+$router->map(
+    'GET',
+    '/articles/show/{id:number}',
+    [new Source\App\ArticleShowController($dbInstace, $response), 'show']
+);
 
-$container->add(ArticleIndexController::class)
-    ->addArgument($dbInstance)
-    ->addArgument($articleDao)
-    ->addArgument($response);
+$router->map(
+    'POST',
+    '/articles',
+    [new Source\App\ArticleStoreController($dbInstace, $response), 'store']
+);
 
-$strategy->setContainer($container);
-$router->setStrategy($strategy);
+$router->map(
+    'PUT',
+    '/articles',
+    [new Source\App\ArticleUpdateController($dbInstace, $response), 'update']
+);
 
-// map a route
-$router->map('GET', '/articles', 'Source\App\ArticleIndexController::index');
+$router->map(
+    'DELETE',
+    '/articles/{id:number}',
+    [new Source\App\ArticleDestroyController($dbInstace, $response), 'destroy']
+);
 
 $response = $router->dispatch($request);
 
