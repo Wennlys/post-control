@@ -28,8 +28,7 @@ class ArticleDAO
     public function save(Article $article)
     {
         return [
-            // 'id' => random_int(1, 100),
-            'id' => $a,
+            'id' => random_int(1, 100),
             'title' => $article->getTitle(),
             'content' => $article->getContent()
         ];
