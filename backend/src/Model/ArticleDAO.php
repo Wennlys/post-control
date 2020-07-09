@@ -3,15 +3,16 @@
 namespace Source\Model;
 
 use Source\Core\Connection;
+use PDO;
 
 class ArticleDAO
 {
-    /** @var Connection $database */
-    private Connection $database;
+    /** @var PDO $database */
+    private PDO $database;
 
     public function __construct(Connection $dbInstance)
     {
-        $this->database = $dbInstance;
+        $this->database = $dbInstance->getConnection();
     }
 
     public function findAll()
@@ -27,7 +28,8 @@ class ArticleDAO
     public function save(Article $article)
     {
         return [
-            'id' => random_int(1, 100),
+            // 'id' => random_int(1, 100),
+            'id' => $a,
             'title' => $article->getTitle(),
             'content' => $article->getContent()
         ];

@@ -1,5 +1,7 @@
 <?php
 
+define("PRODUCTION", true);
+
 /*
  * SQL(POSTGRES) DATABASE
  * */

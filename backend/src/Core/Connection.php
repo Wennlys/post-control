@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Core;
 
+use SQLite3;
 use PDO;
 use PDOException;
 use Exception;
@@ -37,12 +38,16 @@ class Connection
      */
     final private function __construct()
     {
+        if (PRODUCTION == true) {
             $this->conn = new PDO(
-                "pgsql:host=" . SQL_DB['HOST'] . ";dbname=" . SQL_DB['NAME'],
+                "mysql:host=" . SQL_DB['HOST'] . ";dbname=" . SQL_DB['NAME'],
                 SQL_DB['USER'],
                 SQL_DB['PASS'],
                 self::OPTIONS
             );
+        } else {
+            $this->conn = new PDO("sqlite::memory:?cache=shared");
+        }
     }
 
     /**

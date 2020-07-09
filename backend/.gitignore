@@ -1,2 +1,5 @@
 /vendor
-/src/Global/ProdConfigs.php
+
+/src/Global/Configs.php
+
+:memory:?cache=shared
