@@ -7,13 +7,13 @@ namespace Source\App;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
 use Source\Core\Connection;
-use Source\Model\ArticleDAO;
+use Source\Model\ArticleDAOImpl;
 use Source\Model\Article;
 
 class ArticleUpdateController
 {
-    /** @var ArticleDAO $articleDao */
-    private ArticleDAO $articleDao;
+    /** @var ArticleDAOImpl $articleDao */
+    private ArticleDAOImpl $articleDao;
 
     /** @var Response $response */
     private Response $response;
@@ -26,7 +26,7 @@ class ArticleUpdateController
      */
     public function __construct(Connection $dbInstace, Response $response)
     {
-        $this->articleDao = new ArticleDAO($dbInstace);
+        $this->articleDao = new ArticleDAOImpl($dbInstace);
         $this->response = $response;
     }
 

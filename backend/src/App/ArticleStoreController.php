@@ -6,14 +6,14 @@ namespace Source\App;
 
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
-use Source\Model\ArticleDAO;
+use Source\Model\ArticleDAOImpl;
 use Source\Core\Connection;
 use Source\Model\Article;
 
 class ArticleStoreController
 {
-    /** @var ArticleDAO $articleDao */
-    private ArticleDAO $articleDao;
+    /** @var ArticleDAOImpl $articleDao */
+    private ArticleDAOImpl $articleDao;
 
     /** @var Response $response */
     private Response $response;
@@ -25,7 +25,7 @@ class ArticleStoreController
      */
     public function __construct(Connection $dbInstance, Response $response)
     {
-        $this->articleDao = new ArticleDAO($dbInstance);
+        $this->articleDao = new ArticleDAOImpl($dbInstance);
         $this->response = $response;
     }
 

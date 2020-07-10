@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\Core;
 
-use SQLite3;
 use PDO;
 use PDOException;
 use Exception;

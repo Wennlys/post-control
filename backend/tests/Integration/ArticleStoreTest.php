@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\App;
+namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 
-class ArticleShowTest extends TestCase
+class ArticleStoreTest extends TestCase
 {
     public Client $client;
 
@@ -16,12 +16,16 @@ class ArticleShowTest extends TestCase
         $this->client = new Client(['base_uri' => ENV_URI]);
     }
 
-    /**
-     * @test
-     */
-    public function itShouldReturnTheSpecifiedArticleById()
+   /**
+    * @test
+    */
+    public function itShouldReturnTheStoredArticle()
     {
-        $response = $this->client->request('GET', '/articles/show/1');
+        $response = $this->client->request(
+            'POST',
+            '/articles',
+            ['json' => ['title' => 'title', 'content' => 'content']]
+        );
         $response = json_decode((string) $response->getBody());
         $this->assertObjectHasAttribute('id', $response);
     }

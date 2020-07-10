@@ -6,12 +6,12 @@ namespace Source\App;
 
 use Laminas\Diactoros\Response;
 use Source\Core\Connection;
-use Source\Model\ArticleDAO;
+use Source\Model\ArticleDAOImpl;
 
 class ArticleIndexController
 {
-    /** @var ArticleDAO $articleDao */
-    private ArticleDAO $articleDao;
+    /** @var ArticleDAOImpl $articleDao */
+    private ArticleDAOImpl $articleDao;
 
     /** @var Response $response */
     private Response $response;
@@ -25,7 +25,7 @@ class ArticleIndexController
     public function __construct(Connection $dbInstance, Response $response)
     {
         $this->response = $response;
-        $this->articleDao = new ArticleDAO($dbInstance);
+        $this->articleDao = new ArticleDAOImpl($dbInstance);
     }
 
     /**
