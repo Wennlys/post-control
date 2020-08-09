@@ -5,28 +5,28 @@ declare(strict_types=1);
 namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use GuzzleHttp\Client;
+use Source\Core\SqliteConnection;
+use Laminas\Diactoros\ServerRequest;
+use Source\App\Http\ArticleStoreController;
 
 class ArticleStoreTest extends TestCase
 {
-    public Client $client;
-
-    public function setUp(): void
+    public function __construct()
     {
-        $this->client = new Client(['base_uri' => ENV_URI]);
+        parent::__construct();
+        $this->dbInstance = SqliteConnection::getInstance();
     }
 
-   /**
-    * @test
-    */
-    public function itShouldReturnTheStoredArticle()
+    protected function setUp(): void
     {
-        $response = $this->client->request(
-            'POST',
-            '/articles',
-            ['json' => ['title' => 'title', 'content' => 'content']]
-        );
-        $response = json_decode((string) $response->getBody());
-        $this->assertObjectHasAttribute('id', $response);
+        $this->request = new ServerRequest([], [], null, null, 'php://memory');
+    }
+
+    public function testStore()
+    {
+        $json = json_encode(['title' => 'title', 'content' => 'content']);
+        $this->request->getBody()->write($json);
+        $response = (new ArticleStoreController($this->dbInstance))->store($this->request);
+        $this->assertSame($json, (string) $response->getBody());
     }
 }
