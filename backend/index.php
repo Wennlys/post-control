@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . "/backend/vendor/autoload.php";
+require_once dirname(__DIR__) . '/backend/vendor/autoload.php';
 
+use League\Route\Router;
+use Source\Core\MySqlConnection;
+use Laminas\Diactoros\ResponseFactory;
+use League\Route\Strategy\JsonStrategy;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Laminas\Diactoros\Response;
-use Laminas\Diactoros\ResponseFactory;
-use League\Route\Router;
-use League\Route\Strategy\JsonStrategy;
-use Source\Core\Connection;
 
 $request = ServerRequestFactory::fromGlobals(
     $_SERVER,
@@ -24,40 +23,38 @@ $responseFactory = new ResponseFactory();
 $strategy = new JsonStrategy($responseFactory);
 $router = new Router();
 
-$response = new Response();
-$dbInstace = Connection::getInstance();
+$dbInstace = MySqlConnection::getInstance();
 
 $router->map(
     'GET',
     '/articles',
-    [new Source\App\ArticleIndexController($dbInstace, $response), 'index']
+    [new Source\App\Http\ArticleIndexController($dbInstace), 'index']
 );
 
 $router->map(
     'GET',
-    '/articles/show/{id:number}',
-    [new Source\App\ArticleShowController($dbInstace, $response), 'show']
+    '/articles/{id:number}',
+    [new Source\App\Http\ArticleShowController($dbInstace), 'show']
 );
 
 $router->map(
     'POST',
     '/articles',
-    [new Source\App\ArticleStoreController($dbInstace, $response), 'store']
+    [new Source\App\Http\ArticleStoreController($dbInstace), 'store']
 );
 
 $router->map(
     'PUT',
     '/articles',
-    [new Source\App\ArticleUpdateController($dbInstace, $response), 'update']
+    [new Source\App\Http\ArticleUpdateController($dbInstace), 'update']
 );
 
 $router->map(
     'DELETE',
     '/articles/{id:number}',
-    [new Source\App\ArticleDestroyController($dbInstace, $response), 'destroy']
+    [new Source\App\Http\ArticleDestroyController($dbInstace), 'destroy']
 );
 
 $response = $router->dispatch($request);
 
-// send the response to the browser
 (new SapiEmitter())->emit($response);

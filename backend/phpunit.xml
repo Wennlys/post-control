@@ -4,8 +4,21 @@
     verbose="true"
     stopOnFailure="false">
     <testsuites>
-        <testsuite name="Test suite">
-            <directory>tests</directory>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>vendor</directory>
+                <directory>src/Core</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>

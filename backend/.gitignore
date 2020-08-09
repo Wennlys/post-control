@@ -1,5 +1,11 @@
-/vendor
+vendor
 
 /src/Global/Configs.php
 
 :memory:?cache=shared
+
+coverage
+
+cov.xml
+
+composer.lock
