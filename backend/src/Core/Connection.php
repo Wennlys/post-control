@@ -8,9 +8,9 @@ use PDO;
 use Exception;
 use PDOException;
 
-abstract class Connection
+final class Connection
 {
-    protected const OPTIONS = [
+    private const OPTIONS = [
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
@@ -20,9 +20,23 @@ abstract class Connection
     /** @var Exception|PDOException */
     public static $error;
 
+    private static ?Connection $instance = null;
+
     private ?PDO $conn = null;
 
-    private static ?Connection $instance = null;
+    private function __construct()
+    {
+        try {
+            $this->conn = new PDO(
+                $_ENV['HOST'] . $_ENV['NAME'],
+                $_ENV['USER'],
+                $_ENV['PASSWORD'],
+                self::OPTIONS
+            );
+        } catch (PDOException $e) {
+            self::$error = $e->getMessage();
+        }
+    }
 
     public static function getInstance(): ?self
     {
