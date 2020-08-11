@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/backend/vendor/autoload.php';
 
+use Dotenv\Dotenv;
 use League\Route\Router;
-use Source\Core\MySqlConnection;
+use Source\Core\Connection;
 use Laminas\Diactoros\ResponseFactory;
 use League\Route\Strategy\JsonStrategy;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+
+(Dotenv::createImmutable(__DIR__))->load();
 
 $request = ServerRequestFactory::fromGlobals(
     $_SERVER,
@@ -23,7 +26,7 @@ $responseFactory = new ResponseFactory();
 $strategy = new JsonStrategy($responseFactory);
 $router = new Router();
 
-$dbInstace = MySqlConnection::getInstance();
+$dbInstace = Connection::getInstance();
 
 $router->map(
     'GET',
