@@ -1,11 +1,6 @@
 vendor
-
-/src/Global/Configs.php
-
-:memory:?cache=shared
-
 coverage
 
 cov.xml
-
+:memory:?cache=shared
 composer.lock
