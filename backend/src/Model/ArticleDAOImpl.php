@@ -2,9 +2,8 @@
 
 namespace Source\Model;
 
-use Source\Core\Connection;
-use Source\Model\ArticleDAO;
 use PDO;
+use Source\Core\Connection;
 
 class ArticleDAOImpl implements ArticleDAO
 {
@@ -20,17 +19,16 @@ class ArticleDAOImpl implements ArticleDAO
         return ['id' => 1];
     }
 
-    public function getById($id): array
+    public function findById(Article $artcile): array
     {
-        return ['id' => $id];
+        return ['id' => $artcile->getId()];
     }
 
     public function save(Article $article): array
     {
         return [
-            'id' => random_int(1, 100),
             'title' => $article->getTitle(),
-            'content' => $article->getContent()
+            'content' => $article->getContent(),
         ];
     }
 
@@ -39,7 +37,7 @@ class ArticleDAOImpl implements ArticleDAO
         return true;
     }
 
-    public function delete($id): bool
+    public function delete(Article $article): bool
     {
         return true;
     }

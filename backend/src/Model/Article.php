@@ -6,41 +6,37 @@ namespace Source\Model;
 
 class Article
 {
-    /** @var string $title */
+    private int $id;
+
     private string $title;
 
-    /** @var string $content */
     private string $content;
 
-    /**
-     * @return string
-     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return void
-     */
     public function setTittle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     * @return void
-     */
     public function setContent(string $content): void
     {
         $this->content = $content;
