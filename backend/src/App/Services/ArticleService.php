@@ -6,16 +6,15 @@ namespace Source\App\Services;
 
 use Exception;
 use Source\Model\Article;
-use Source\Core\Connection;
-use Source\Model\ArticleDAOImpl;
+use Source\Model\ArticleDAO;
 
 class ArticleService
 {
-    private ArticleDAOImpl $articleDao;
+    private ArticleDAO $articleDao;
 
-    public function __construct(Connection $connection)
+    public function __construct(ArticleDAO $articleDAO)
     {
-        $this->articleDao = new ArticleDAOImpl($connection);
+        $this->articleDao = $articleDAO;
     }
 
     /** @throws Exception */

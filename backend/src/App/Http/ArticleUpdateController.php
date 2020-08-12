@@ -7,16 +7,18 @@ namespace Source\App\Http;
 use Source\Model\Article;
 use Source\Core\Connection;
 use Source\Model\ArticleDAOImpl;
+use Source\App\Services\ArticleService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ArticleUpdateController
 {
-    private ArticleDAOImpl $articleDao;
+    private ArticleService $service;
 
     public function __construct(Connection $dbInstace)
     {
-        $this->articleDao = new ArticleDAOImpl($dbInstace);
+        $dao = new ArticleDAOImpl($dbInstace);
+        $this->service = new ArticleService($dao);
     }
 
     public function update(ServerRequestInterface $request): JsonResponse
@@ -27,7 +29,7 @@ class ArticleUpdateController
         $article->setTittle($title);
         $article->setContent($content);
 
-        $response = $this->articleDao->change($article);
+        $response = $this->service->update($article);
 
         return new JsonResponse($response);
     }

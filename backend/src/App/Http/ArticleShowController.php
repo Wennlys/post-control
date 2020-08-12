@@ -6,21 +6,23 @@ namespace Source\App\Http;
 
 use Source\Core\Connection;
 use Source\Model\ArticleDAOImpl;
+use Source\App\Services\ArticleService;
 use Laminas\Diactoros\Response\JsonResponse;
 
 class ArticleShowController
 {
-    private ArticleDAOImpl $articleDao;
+    private ArticleService $service;
 
     public function __construct(Connection $dbInstance)
     {
-        $this->articleDao = new ArticleDAOImpl($dbInstance);
+        $dao = new ArticleDAOImpl($dbInstance);
+        $this->service = new ArticleService($dao);
     }
 
     public function show($r, array $args): JsonResponse
     {
         ['id' => $id] = $args;
-        $response = $this->articleDao->findById($id);
+        $response = $this->service->show($id);
 
         return new JsonResponse($response);
     }
