@@ -13,7 +13,10 @@
     "autoload": {
         "psr-4": {
             "Source\\": "src/"
-        }
+        },
+        "files": [
+            "src/Global/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
