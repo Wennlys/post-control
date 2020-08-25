@@ -1,6 +1,0 @@
-vendor
-coverage
-
-cov.xml
-:memory:?cache=shared
-composer.lock
