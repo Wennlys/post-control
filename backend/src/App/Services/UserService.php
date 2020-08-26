@@ -1,27 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Source\App\Services;
 
 use PDOException;
-use Source\Model\Article;
-use Source\Model\ArticleDAO;
+use Source\Model\User;
+use Source\Model\UserDAO;
 
-class ArticleService
+class UserService
 {
-    private ArticleDAO $dao;
+    private UserDAO $userDao;
 
-    public function __construct(ArticleDAO $dao)
+    public function __construct(UserDAO $dao)
     {
-        $this->dao = $dao;
+        $this->userDao = $dao;
     }
 
     /** @throws PDOException */
     public function index(): array
     {
         try {
-            $data = $this->dao->findAll();
+            $data = $this->userDao->findAll();
 
             return [
                 'success' => true,
@@ -36,10 +34,10 @@ class ArticleService
     }
 
     /** @throws PDOException */
-    public function show(Article $article): array
+    public function show(User $user): array
     {
         try {
-            $data = $this->dao->findById($article);
+            $data = $this->userDao->findByEmail($user);
 
             return [
                 'success' => true,
@@ -54,10 +52,10 @@ class ArticleService
     }
 
     /** @throws PDOException */
-    public function store(Article $article): array
+    public function store(User $user): array
     {
         try {
-            $data = $this->dao->save($article);
+            $data = $this->userDao->save($user);
 
             return [
                 'success' => true,
@@ -72,10 +70,10 @@ class ArticleService
     }
 
     /** @throws PDOException */
-    public function update(Article $article): array
+    public function update(User $user): array
     {
         try {
-            $data = $this->dao->change($article);
+            $data = $this->userDao->change($user);
 
             return [
                 'success' => true,
@@ -90,10 +88,10 @@ class ArticleService
     }
 
     /** @throws PDOException */
-    public function destroy(Article $article): array
+    public function destroy(User $user): array
     {
         try {
-            $data = $this->dao->delete($article);
+            $data = $this->userDao->delete($user);
 
             return [
                 'success' => true,
