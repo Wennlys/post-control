@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration;
+namespace Tests\SetUp;
 
 use Source\Core\Connection;
 use PHPUnit\Framework\TestCase;
