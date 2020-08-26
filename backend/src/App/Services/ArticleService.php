@@ -57,7 +57,8 @@ class ArticleService
     public function store(Article $article): array
     {
         try {
-            $data = $this->dao->save($article);
+            $id = $this->dao->save($article);
+            $data = $this->dao->findById($id);
 
             return [
                 'success' => true,

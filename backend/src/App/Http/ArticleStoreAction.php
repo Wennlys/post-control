@@ -26,16 +26,21 @@ class ArticleStoreAction
             'user_id' => $userId,
             'title' => $title,
             'body' => $body,
-            'published' => $published
+            'slug' => $slug,
+            'published' => $published,
+            'tags' => $tags
         ] = (array) json_decode((string) $request->getBody());
 
         $article = new Article();
         $article->setUserId($userId);
         $article->setTittle($title);
         $article->setBody($body);
+        $article->setSlug($slug);
         $article->setPublished($published);
+        $article->setTags($tags);
 
         $response = $this->service->store($article);
+
         return new JsonResponse($response);
     }
 }

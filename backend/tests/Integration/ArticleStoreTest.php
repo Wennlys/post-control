@@ -4,31 +4,37 @@ declare(strict_types=1);
 
 namespace Tests\Integration;
 
-use Source\Core\Connection;
-use PHPUnit\Framework\TestCase;
-use Laminas\Diactoros\ServerRequest;
-use Source\App\Http\ArticleStoreController;
+use Mocks\IntegrationTestCase;
+use Source\App\Http\ArticleStoreAction;
 
-class ArticleStoreTest extends TestCase
+class ArticleStoreTest extends IntegrationTestCase
 {
-    private Connection $db;
+    const CASES = [
+        [
+            'user_id' => 1,
+            'title' => 'Test Post',
+            'body' => 'This is a test post.',
+            'slug' => 'test-post',
+            'published' => true,
+            'tags' => ['tag1', 'tag2', 'tag3'],
+        ],
+    ];
 
     public function __construct()
     {
-        parent::__construct();
-        $this->db = Connection::getInstance();
+        parent::__construct(ArticleStoreAction::class);
     }
 
-    protected function setUp(): void
+    public function testArticleStoring(): void
     {
-        $this->request = new ServerRequest([], [], null, null, 'php://memory');
+        $response = $this->request(self::CASES[0]);
+        $this->assertTrue($response['success']);
     }
 
-    public function testStore()
+    /** @test */
+    public function shouldFailsBecauseSlugsAreUnique(): void
     {
-        $json = json_encode(['title' => 'title', 'content' => 'content']);
-        $this->request->getBody()->write($json);
-        $response = (new ArticleStoreController($this->db))->store($this->request);
-        $this->assertSame($json, (string) $response->getBody());
+        $response = $this->request(self::CASES[0]);
+        $this->assertFalse($response['success']);
     }
 }
