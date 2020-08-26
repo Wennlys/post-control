@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 function dismount_obj($object): array
 {
     $reflectionClass = new ReflectionClass(get_class($object));
