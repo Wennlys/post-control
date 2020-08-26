@@ -1,6 +1,6 @@
 <?php
 
-function dismount_obj($object)
+function dismount_obj($object): array
 {
     $reflectionClass = new ReflectionClass(get_class($object));
     $array = [];
