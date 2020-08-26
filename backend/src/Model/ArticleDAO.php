@@ -2,15 +2,11 @@
 
 namespace Source\Model;
 
-use Source\Core\Connection;
-
 interface ArticleDAO
 {
-    public function __construct(Connection $dbInstance);
-
     public function findAll(): array;
 
-    public function findById(Article $artcile): array;
+    public function findById(Article $article): array;
 
     public function save(Article $article): array;
 

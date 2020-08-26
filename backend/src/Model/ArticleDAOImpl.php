@@ -2,16 +2,16 @@
 
 namespace Source\Model;
 
-use PDO;
 use Source\Core\Connection;
+use PDO;
 
 class ArticleDAOImpl implements ArticleDAO
 {
     private PDO $database;
 
-    public function __construct(Connection $dbInstance)
+    public function __construct()
     {
-        $this->database = $dbInstance->getConnection();
+        $this->database = Connection::getInstance()->getConnection();
     }
 
     public function findAll(): array
@@ -19,16 +19,17 @@ class ArticleDAOImpl implements ArticleDAO
         return ['id' => 1];
     }
 
-    public function findById(Article $artcile): array
+    public function findById(Article $article): array
     {
-        return ['id' => $artcile->getId()];
+        return ['id' => $article->getUserId()];
     }
 
     public function save(Article $article): array
     {
         return [
             'title' => $article->getTitle(),
-            'content' => $article->getContent(),
+            'body' => $article->getBody(),
+            'published' => $article->isPublished(),
         ];
     }
 

@@ -6,20 +6,22 @@ namespace Source\Model;
 
 class Article
 {
-    private int $id;
+    private int $userId;
 
     private string $title;
 
-    private string $content;
+    private string $body;
 
-    public function getId(): int
+    private bool $published = false;
+
+    public function getUserId(): int
     {
-        return $this->id;
+        return $this->userId;
     }
 
-    public function setId(int $id): void
+    public function setUserId(int $id): void
     {
-        $this->id = $id;
+        $this->userId = $id;
     }
 
     public function getTitle(): string
@@ -32,13 +34,23 @@ class Article
         $this->title = $title;
     }
 
-    public function getContent(): string
+    public function getBody(): string
     {
-        return $this->content;
+        return $this->body;
     }
 
-    public function setContent(string $content): void
+    public function setBody(string $body): void
     {
-        $this->content = $content;
+        $this->body = $body;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(?bool $published): void
+    {
+        $this->published = $published ?? false;
     }
 }
