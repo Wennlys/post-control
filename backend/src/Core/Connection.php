@@ -38,7 +38,7 @@ final class Connection
         }
     }
 
-    public static function getInstance(): ?self
+    public static function getInstance(): self
     {
         if (!self::$instance) {
             self::$instance = new self();
