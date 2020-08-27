@@ -5,8 +5,9 @@
     stopOnFailure="false">
     <testsuites>
         <testsuite name="Integration">
-            <directory>tests/SetUp</directory>
-            <directory>tests/Integration</directory>
+            <directory>tests/Database</directory>
+            <directory>tests/Integration/UserTests</directory>
+            <directory>tests/Integration/ArticleTests</directory>
         </testsuite>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
