@@ -20,19 +20,11 @@ class ArticleService
     /** @throws PDOException */
     public function index(): array
     {
-        try {
-            $data = $this->dao->findAll();
+        $data = $this->dao->findAll();
 
-            return [
-                'success' => true,
-                $data,
-            ];
-        } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
-        }
+        return [
+            $data,
+        ];
     }
 
     /** @throws PDOException */

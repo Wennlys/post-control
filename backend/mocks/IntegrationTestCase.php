@@ -16,7 +16,7 @@ abstract class IntegrationTestCase extends TestCase
         $this->actionClass = $class;
     }
 
-    protected function request(array $array, array $args = []): array
+    protected function request(array $array = [], array $args = []): array
     {
         $json = json_encode($array);
         $request = new ServerRequestMock();
