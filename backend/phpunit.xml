@@ -18,6 +18,7 @@
             <directory suffix=".php">./src</directory>
             <exclude>
                 <directory>vendor</directory>
+                <directory>src/Global</directory>
                 <directory>src/Core</directory>
             </exclude>
         </whitelist>
