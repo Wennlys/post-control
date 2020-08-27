@@ -16,16 +16,17 @@ class SetUpTest extends TestCase
 
         $db->exec(
             "CREATE TABLE users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name varchar(255) NOT NULL,
                 email VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 created_at DATETIME,
-                updated_at DATETIME
+                updated_at DATETIME,
+                UNIQUE (email)
             );
 
             CREATE TABLE articles (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INT NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 slug VARCHAR(191) NOT NULL,
@@ -38,7 +39,7 @@ class SetUpTest extends TestCase
             );
 
             CREATE TABLE tags (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title VARCHAR(191),
                 created_at DATETIME,
                 updated_at DATETIME,
@@ -53,7 +54,7 @@ class SetUpTest extends TestCase
                 FOREIGN KEY(article_id) REFERENCES articles(id)
             );
 
-            INSERT INTO users (name,email, password, created_at, updated_at)
+            INSERT INTO users (name, email, password, created_at, updated_at)
             VALUES
             ('Cake PHP', 'cakephp@example.com', 'secret', date('now'), date('now'));
 
