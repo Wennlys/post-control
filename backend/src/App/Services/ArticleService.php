@@ -39,7 +39,8 @@ class ArticleService
     public function show(Article $article): array
     {
         try {
-            $data = $this->dao->findById($article);
+            $id = (string) $article->getId();
+            $data = $this->dao->findById($id);
 
             return [
                 'success' => true,

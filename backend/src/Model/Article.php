@@ -6,12 +6,23 @@ namespace Source\Model;
 
 class Article
 {
+    private int $id;
     private int $userId;
     private string $title;
     private string $body;
     private string $slug;
     private bool $published = false;
     private array $tags;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getUserId(): int
     {

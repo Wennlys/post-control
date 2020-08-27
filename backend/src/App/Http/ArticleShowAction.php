@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\App\Http;
 
+use Source\Model\Article;
 use Source\Model\ArticleDAOImpl;
 use Source\App\Services\ArticleService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -21,7 +22,11 @@ class ArticleShowAction
     public function __invoke($r, array $args): JsonResponse
     {
         ['id' => $id] = $args;
-        $response = $this->service->show($id);
+
+        $article = new Article();
+        $article->setId($id);
+
+        $response = $this->service->show($article);
 
         return new JsonResponse($response);
     }

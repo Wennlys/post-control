@@ -32,7 +32,11 @@ class ArticleDAOImpl implements ArticleDAO
             FROM articles WHERE id = {$id}"
         )->fetch(PDO::FETCH_ASSOC);
 
-        return false === $data ? [] : $data;
+        if (false === $data) {
+            throw new PDOException();
+        }
+
+        return $data;
     }
 
     public function save(Article $article)
