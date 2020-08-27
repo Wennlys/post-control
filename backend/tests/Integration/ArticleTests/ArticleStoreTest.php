@@ -39,13 +39,15 @@ class ArticleStoreTest extends IntegrationTestCase
         $this->assertTrue($response['success']);
     }
 
-    public function testShouldFailEmailsAreUnique(): void
+    /** @test */
+    public function emailsAreUnique(): void
     {
         $response = $this->request(self::CASES[0]);
         $this->assertFalse($response['success']);
     }
 
-    public function testShouldFailUserMustExist(): void
+    /** @test */
+    public function userMustExist(): void
     {
         $response = $this->request(self::CASES[1]);
         $this->assertSame('User not found.', $response['message']);
