@@ -37,7 +37,12 @@ class UserService
     public function show(User $user): array
     {
         try {
-            $data = $this->userDao->findByEmail($user);
+            if ($user->getEmail()) {
+                $data = $this->userDao->findByEmail($user);
+            } else {
+                $id = (string) $user->getId();
+                $data = $this->userDao->findById($id);
+            }
 
             return [
                 'success' => true,
@@ -55,7 +60,8 @@ class UserService
     public function store(User $user): array
     {
         try {
-            $data = $this->userDao->save($user);
+            $id = $this->userDao->save($user);
+            $data = $this->userDao->findById($id);
 
             return [
                 'success' => true,

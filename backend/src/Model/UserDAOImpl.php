@@ -3,15 +3,18 @@
 namespace Source\Model;
 
 use PDO;
+use PDOException;
 use Source\Core\Connection;
 
 class UserDAOImpl implements UserDAO
 {
-    private PDO $database;
+    private PDO $db;
+    private string $currentDate;
 
     public function __construct()
     {
-        $this->database = Connection::getInstance()->getConnection();
+        $this->db = Connection::getInstance()->getConnection();
+        $this->currentDate = now();
     }
 
     public function findAll(): array
@@ -19,9 +22,20 @@ class UserDAOImpl implements UserDAO
         return ['id' => 1];
     }
 
-    public function findById(User $user): array
+    public function findById(string $id): array
     {
-        return ['id' => $user->getId()];
+        $data = $this->db->query(
+            "SELECT id,
+                    name,
+                    email
+            FROM users WHERE id = {$id}"
+        )->fetch(PDO::FETCH_ASSOC);
+
+        if (false === $data) {
+            throw new PDOException();
+        }
+
+        return $data;
     }
 
     public function findByEmail(User $user): array
@@ -29,13 +43,24 @@ class UserDAOImpl implements UserDAO
         return ['email' => $user->getEmail()];
     }
 
-    public function save(User $user): array
+    public function save(User $user): string
     {
-        return [
-            'name' => $user->getName(),
-            'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
-        ];
+        try {
+            $query = $this->db->prepare(
+                'INSERT INTO users (name, email, password, created_at, updated_at)
+                VALUES (:n, :e, :p, :ca, :ua)'
+            );
+            $query->bindValue(':n', $user->getName());
+            $query->bindValue(':e', $user->getEmail());
+            $query->bindValue(':p', $user->getPassword());
+            $query->bindValue(':ca', $this->currentDate);
+            $query->bindValue(':ua', $this->currentDate);
+            $query->execute();
+
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 
     public function change(User $user): bool

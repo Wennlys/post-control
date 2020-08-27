@@ -8,7 +8,9 @@ interface UserDAO
 
     public function findByEmail(User $user): array;
 
-    public function save(User $user): array;
+    public function findById(string $id): array;
+
+    public function save(User $user): string;
 
     public function change(User $user): bool;
 

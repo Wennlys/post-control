@@ -9,10 +9,12 @@ use Source\Core\Connection;
 class ArticleDAOImpl implements ArticleDAO
 {
     private PDO $db;
+    private string $currentDate;
 
     public function __construct()
     {
         $this->db = Connection::getInstance()->getConnection();
+        $this->currentDate = now();
     }
 
     public function findAll(): array
@@ -22,10 +24,18 @@ class ArticleDAOImpl implements ArticleDAO
 
     public function findById(string $id): array
     {
-        return $this->db->query("SELECT title, slug, body, published FROM articles WHERE id = {$id}")->fetchAll() ?? [];
+        $data = $this->db->query(
+            "SELECT title,
+                    slug,
+                    body,
+                    published
+            FROM articles WHERE id = {$id}"
+        )->fetch(PDO::FETCH_ASSOC);
+
+        return false === $data ? [] : $data;
     }
 
-    public function save(Article $article): string
+    public function save(Article $article)
     {
         $this->db->beginTransaction();
 
@@ -39,10 +49,10 @@ class ArticleDAOImpl implements ArticleDAO
             $insertArticle->bindValue(':s', $article->getSlug());
             $insertArticle->bindValue(':b', $article->getBody());
             $insertArticle->bindValue(':p', $article->isPublished(), PDO::PARAM_BOOL);
-            $insertArticle->bindValue(':ca', now());
-            $insertArticle->bindValue(':u', now());
+            $insertArticle->bindValue(':ca', $this->currentDate);
+            $insertArticle->bindValue(':ua', $this->currentDate);
             $insertArticle->execute();
-            $createdArticleId = $this->db->lastInsertId();
+            $lastId = $this->db->lastInsertId();
 
             foreach ($article->getTags() as $tag) {
                 $tagId = $this->findTagIdByTagTitle($tag);
@@ -53,13 +63,13 @@ class ArticleDAOImpl implements ArticleDAO
 
                 $this->db->query(
                     "INSERT INTO articles_tags (article_id, tag_id)
-                    VALUES ({$createdArticleId}, {$tagId})"
+                    VALUES ({$lastId}, {$tagId})"
                 );
             }
 
             $this->db->commit();
 
-            return $createdArticleId;
+            return $lastId;
         } catch (PDOException $e) {
             $this->db->rollBack();
 
@@ -90,8 +100,8 @@ class ArticleDAOImpl implements ArticleDAO
     {
         $query = $this->db->prepare('INSERT INTO tags (title, created_at, updated_at) VALUES (:t, :ca, :ua)');
         $query->bindValue(':t', $title);
-        $query->bindValue(':ca', now());
-        $query->bindValue(':ua', now());
+        $query->bindValue(':ca', $this->currentDate);
+        $query->bindValue(':ua', $this->currentDate);
 
         return $query->execute();
     }

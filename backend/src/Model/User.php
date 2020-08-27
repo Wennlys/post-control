@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Source\Model;
 
-use LengthException;
-use PharIo\Manifest\InvalidEmailException;
-
 class User
 {
-    private int $id;
-    private string $name;
-    private string $email;
-    private string $password;
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $email = null;
+    private ?string $password = null;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -24,21 +21,17 @@ class User
         $this->id = $id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     public function setName(string $name): void
     {
-        if (\strlen($name) <= 40 || \strlen($name) >= 4) {
-            $this->name = $name;
-        } else {
-            throw new LengthException();
-        }
+        $this->name = $name;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -46,17 +39,11 @@ class User
     public function setEmail(string $email): void
     {
         if (filter_var($email, \FILTER_VALIDATE_EMAIL)) {
-            if (\strlen($email) > 10) {
-                $this->email = $email;
-            } else {
-                throw new LengthException();
-            }
-        } else {
-            throw new InvalidEmailException();
+            $this->email = $email;
         }
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -65,8 +52,6 @@ class User
     {
         if (\strlen($password) <= 40 || \strlen($password) >= 4) {
             $this->password = $password;
-        } else {
-            throw new LengthException();
         }
     }
 }
