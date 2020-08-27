@@ -6,15 +6,15 @@ namespace Source\Model;
 
 class Article
 {
-    private int $id;
-    private int $userId;
-    private string $title;
-    private string $body;
-    private string $slug;
+    private ?int $id = null;
+    private ?int $userId = null;
+    private ?string $title = null;
+    private ?string $body = null;
+    private ?string $slug = null;
     private bool $published = false;
-    private array $tags;
+    private array $tags = [];
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -24,7 +24,7 @@ class Article
         $this->id = $id;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -34,7 +34,7 @@ class Article
         $this->userId = $id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -44,7 +44,7 @@ class Article
         $this->title = $title;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
@@ -54,7 +54,7 @@ class Article
         $this->body = $body;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }

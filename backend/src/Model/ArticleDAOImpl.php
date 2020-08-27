@@ -22,6 +22,7 @@ class ArticleDAOImpl implements ArticleDAO
         return ['id' => 1];
     }
 
+    /** @throws PDOException */
     public function findById(string $id): array
     {
         $data = $this->db->query(
@@ -39,6 +40,7 @@ class ArticleDAOImpl implements ArticleDAO
         return $data;
     }
 
+    /** @throws PDOException */
     public function save(Article $article)
     {
         $this->db->beginTransaction();
@@ -81,9 +83,50 @@ class ArticleDAOImpl implements ArticleDAO
         }
     }
 
+    /** @throws PDOException */
     public function change(Article $article): bool
     {
-        return true;
+        $this->db->beginTransaction();
+
+        try {
+            $updates = [
+                'user_id' => $article->getUserId(),
+                'title' => $article->getTitle(),
+                'slug' => $article->getSlug(),
+                'body' => $article->getBody(),
+                'published' => $article->isPublished(),
+                'updated_at' => $this->currentDate,
+            ];
+
+            array_filter($updates, fn ($value) => null !== $value && '' !== $value);
+
+            $params = [];
+            $setStr = '';
+
+            foreach ($updates as $key => $value) {
+                if (isset($value) && 'id' !== $key) {
+                    $setStr .= "{$key} = :{$key},";
+                    $params[$key] = $value;
+                }
+            }
+            $setStr = rtrim($setStr, ',');
+
+            $params['id'] = $article->getId();
+
+            $query = $this->db->prepare(
+                "UPDATE articles SET {$setStr} WHERE id = :id"
+            );
+
+            $query->execute($params);
+
+            $this->db->commit();
+
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+
+            throw $e;
+        }
     }
 
     public function delete(Article $article): bool
