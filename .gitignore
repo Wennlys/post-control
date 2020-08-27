@@ -1,2 +1,14 @@
-/.vscode
+.vscode
+.idea
+
 .env
+*.cache
+cov.xml
+
+vendor
+coverage
+
+node_modules
+dist
+
+
