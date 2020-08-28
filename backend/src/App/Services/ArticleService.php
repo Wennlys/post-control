@@ -8,7 +8,7 @@ use PDOException;
 use Source\Model\Article;
 use Source\Model\ArticleDAO;
 
-class ArticleService
+class ArticleService extends Service
 {
     private ArticleDAO $dao;
 
@@ -22,9 +22,7 @@ class ArticleService
     {
         $data = $this->dao->findAll();
 
-        return [
-            $data,
-        ];
+        return $this->handleSuccess($data);
     }
 
     /** @throws PDOException */
@@ -34,15 +32,9 @@ class ArticleService
             $id = (string) $article->getId();
             $data = $this->dao->findById($id);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -53,15 +45,9 @@ class ArticleService
             $id = $this->dao->save($article);
             $data = $this->dao->findById($id);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -73,15 +59,9 @@ class ArticleService
             $id = (string) $article->getId();
             $data = $this->dao->findById($id);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -95,10 +75,7 @@ class ArticleService
                 'success' => true,
             ];
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 }

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Source\App\Services;
 
 use PDOException;
 use Source\Model\User;
 use Source\Model\UserDAO;
 
-class UserService
+class UserService extends Service
 {
     private UserDAO $userDao;
 
@@ -21,15 +23,9 @@ class UserService
         try {
             $data = $this->userDao->findAll();
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -37,22 +33,12 @@ class UserService
     public function show(User $user): array
     {
         try {
-            if ($user->getEmail()) {
-                $data = $this->userDao->findByEmail($user);
-            } else {
-                $id = (string) $user->getId();
-                $data = $this->userDao->findById($id);
-            }
+            $id = (string) $user->getId();
+            $data = $this->userDao->findById($id);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -63,15 +49,9 @@ class UserService
             $id = $this->userDao->save($user);
             $data = $this->userDao->findById($id);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess($data);
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -79,17 +59,11 @@ class UserService
     public function update(User $user): array
     {
         try {
-            $data = $this->userDao->change($user);
+            $this->userDao->change($user);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess();
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 
@@ -97,17 +71,11 @@ class UserService
     public function destroy(User $user): array
     {
         try {
-            $data = $this->userDao->delete($user);
+            $this->userDao->delete($user);
 
-            return [
-                'success' => true,
-                $data,
-            ];
+            return $this->handleSuccess();
         } catch (PDOException $e) {
-            return [
-                'success' => false,
-                $e,
-            ];
+            return $this->handleException($e);
         }
     }
 }
