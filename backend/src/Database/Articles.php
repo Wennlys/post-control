@@ -1,12 +1,13 @@
 <?php
 
-namespace Source\Model;
+namespace Source\Database;
 
 use PDO;
 use PDOException;
+use Source\Models\Article;
 use Source\Core\Connection;
 
-class ArticleDAOImpl implements ArticleDAO
+class Articles
 {
     private PDO $db;
     private string $currentDate;

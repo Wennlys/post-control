@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\App\Http;
 
-use Source\Model\ArticleDAOImpl;
+use Source\Database\Articles;
 use Source\App\Services\ArticleService;
 use Laminas\Diactoros\Response\JsonResponse;
 
@@ -14,8 +14,8 @@ class ArticleIndexAction
 
     public function __construct()
     {
-        $dao = new ArticleDAOImpl();
-        $this->service = new ArticleService($dao);
+        $database = new Articles();
+        $this->service = new ArticleService($database);
     }
 
     public function __invoke(): JsonResponse

@@ -2,8 +2,8 @@
 
 namespace Source\App\Http;
 
-use Source\Model\User;
-use Source\Model\UserDAOImpl;
+use Source\Models\User;
+use Source\Database\Users;
 use Source\App\Services\UserService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +14,7 @@ class UserStoreAction
 
     public function __construct()
     {
-        $dao = new UserDAOImpl();
+        $dao = new Users();
         $this->service = new UserService($dao);
     }
 

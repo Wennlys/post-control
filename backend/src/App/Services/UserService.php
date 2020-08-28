@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Source\App\Services;
 
 use PDOException;
-use Source\Model\User;
-use Source\Model\UserDAO;
+use Source\Models\User;
+use Source\Database\Users;
 
 class UserService extends Service
 {
-    private UserDAO $userDao;
+    private Users $db;
 
-    public function __construct(UserDAO $dao)
+    public function __construct(Users $db)
     {
-        $this->userDao = $dao;
+        $this->db = $db;
     }
 
     /** @throws PDOException */
     public function index(): array
     {
         try {
-            $data = $this->userDao->findAll();
+            $data = $this->db->findAll();
 
             return $this->handleSuccess($data);
         } catch (PDOException $e) {
@@ -34,7 +34,7 @@ class UserService extends Service
     {
         try {
             $id = (string) $user->getId();
-            $data = $this->userDao->findById($id);
+            $data = $this->db->findById($id);
 
             return $this->handleSuccess($data);
         } catch (PDOException $e) {
@@ -46,8 +46,13 @@ class UserService extends Service
     public function store(User $user): array
     {
         try {
-            $id = $this->userDao->save($user);
-            $data = $this->userDao->findById($id);
+            $email = $user->getEmail();
+            if (false === $this->db->findByEmail($email)) {
+                return $this->handleException(new PDOException('Emails are unique'));
+            }
+
+            $id = $this->db->save($user);
+            $data = $this->db->findById($id);
 
             return $this->handleSuccess($data);
         } catch (PDOException $e) {
@@ -59,7 +64,7 @@ class UserService extends Service
     public function update(User $user): array
     {
         try {
-            $this->userDao->change($user);
+            $this->db->change($user);
 
             return $this->handleSuccess();
         } catch (PDOException $e) {
@@ -71,7 +76,7 @@ class UserService extends Service
     public function destroy(User $user): array
     {
         try {
-            $this->userDao->delete($user);
+            $this->db->delete($user);
 
             return $this->handleSuccess();
         } catch (PDOException $e) {

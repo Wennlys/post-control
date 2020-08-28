@@ -1,12 +1,13 @@
 <?php
 
-namespace Source\Model;
+namespace Source\Database;
 
 use PDO;
 use PDOException;
+use Source\Models\User;
 use Source\Core\Connection;
 
-class UserDAOImpl implements UserDAO
+class Users
 {
     private PDO $db;
     private string $currentDate;
@@ -38,9 +39,12 @@ class UserDAOImpl implements UserDAO
         return $data;
     }
 
-    public function findByEmail(User $user): array
+    public function findByEmail(string $email): int
     {
-        return ['email' => $user->getEmail()];
+        $query = $this->db->prepare('SELECT id FROM users WHERE email = ?');
+        $query->bindParam(1, $email);
+
+        return $query->fetchColumn(1);
     }
 
     public function save(User $user): string

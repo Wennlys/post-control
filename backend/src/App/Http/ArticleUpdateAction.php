@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Source\App\Http;
 
-use Source\Model\User;
-use Source\Model\Article;
-use Source\Model\UserDAOImpl;
-use Source\Model\ArticleDAOImpl;
+use Source\Models\User;
+use Source\Database\Users;
+use Source\Models\Article;
+use Source\Database\Articles;
 use Source\App\Services\UserService;
 use Source\App\Services\ArticleService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -20,10 +20,10 @@ class ArticleUpdateAction
 
     public function __construct()
     {
-        $userDao = new UserDAOImpl();
-        $this->userService = new UserService($userDao);
-        $articleDao = new ArticleDAOImpl();
-        $this->articleService = new ArticleService($articleDao);
+        $users = new Users();
+        $this->userService = new UserService($users);
+        $articles = new Articles();
+        $this->articleService = new ArticleService($articles);
     }
 
     public function __invoke(ServerRequestInterface $request): JsonResponse

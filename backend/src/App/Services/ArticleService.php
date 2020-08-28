@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Source\App\Services;
 
 use PDOException;
-use Source\Model\Article;
-use Source\Model\ArticleDAO;
+use Source\Models\Article;
+use Source\Database\Articles;
 
 class ArticleService extends Service
 {
-    private ArticleDAO $dao;
+    private Articles $dao;
 
-    public function __construct(ArticleDAO $dao)
+    public function __construct(Articles $dao)
     {
         $this->dao = $dao;
     }

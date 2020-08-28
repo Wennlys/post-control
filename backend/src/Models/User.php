@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Source\Model;
+namespace Source\Models;
 
 class User
 {
