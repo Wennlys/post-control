@@ -17,6 +17,6 @@ class ArticleIndexTest extends IntegrationTestCase
     public function testShowingArticleById()
     {
         $response = $this->request();
-        $this->assertIsArray($response);
+        $this->assertTrue($response['success']);
     }
 }
