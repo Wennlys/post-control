@@ -91,11 +91,10 @@ class ArticleService
     public function destroy(Article $article): array
     {
         try {
-            $data = $this->dao->delete($article);
+            $this->dao->delete($article);
 
             return [
                 'success' => true,
-                $data,
             ];
         } catch (PDOException $e) {
             return [

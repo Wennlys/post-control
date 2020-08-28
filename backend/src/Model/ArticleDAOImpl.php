@@ -41,7 +41,7 @@ class ArticleDAOImpl implements ArticleDAO
     }
 
     /** @throws PDOException */
-    public function save(Article $article)
+    public function save(Article $article): string
     {
         $this->db->beginTransaction();
 
@@ -129,9 +129,18 @@ class ArticleDAOImpl implements ArticleDAO
         }
     }
 
-    public function delete(Article $article): bool
+    /** @throws PDOException */
+    public function delete(Article $article): void
     {
-        return true;
+        try {
+            $id = $article->getId();
+            $delete = $this->db->exec("DELETE FROM articles WHERE id = {$id}");
+            if (0 === $delete) {
+                throw new PDOException();
+            }
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 
     private function findTagIdByTagTitle(string $title): int
