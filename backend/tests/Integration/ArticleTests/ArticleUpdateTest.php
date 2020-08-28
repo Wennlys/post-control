@@ -78,6 +78,5 @@ class ArticleUpdateTest extends IntegrationTestCase
     {
         $response = $this->request(self::CASES[3]);
         $this->assertFalse($response['success']);
-        \var_dump($response);
     }
 }
