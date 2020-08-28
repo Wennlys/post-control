@@ -84,7 +84,7 @@ class ArticleDAOImpl implements ArticleDAO
     }
 
     /** @throws PDOException */
-    public function change(Article $article): bool
+    public function change(Article $article): void
     {
         $this->db->beginTransaction();
 
@@ -113,15 +113,11 @@ class ArticleDAOImpl implements ArticleDAO
 
             $params['id'] = $article->getId();
 
-            $query = $this->db->prepare(
+            $this->db->prepare(
                 "UPDATE articles SET {$setStr} WHERE id = :id"
-            );
-
-            $query->execute($params);
+            )->execute($params);
 
             $this->db->commit();
-
-            return true;
         } catch (PDOException $e) {
             $this->db->rollBack();
 

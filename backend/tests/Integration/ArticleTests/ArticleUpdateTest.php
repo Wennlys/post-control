@@ -38,7 +38,7 @@ class ArticleUpdateTest extends IntegrationTestCase
             'tags' => ['tag1', 'tag2', 'tag3'],
         ],
         [
-            'id' => 1,
+            'id' => 2,
             'user_id' => 1,
             'title' => 'Test Post',
             'body' => 'This is a test post.',
@@ -78,5 +78,6 @@ class ArticleUpdateTest extends IntegrationTestCase
     {
         $response = $this->request(self::CASES[3]);
         $this->assertFalse($response['success']);
+        \var_dump($response);
     }
 }

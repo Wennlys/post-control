@@ -10,7 +10,7 @@ interface ArticleDAO
 
     public function save(Article $article): string;
 
-    public function change(Article $article): bool;
+    public function change(Article $article): void;
 
     public function delete(Article $article): void;
 }

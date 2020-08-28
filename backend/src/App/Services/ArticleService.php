@@ -69,11 +69,9 @@ class ArticleService
     public function update(Article $article): array
     {
         try {
-            $isUpdated = $this->dao->change($article);
-            if ($isUpdated) {
-                $id = (string) $article->getId();
-                $data = $this->dao->findById($id);
-            }
+            $this->dao->change($article);
+            $id = (string) $article->getId();
+            $data = $this->dao->findById($id);
 
             return [
                 'success' => true,
