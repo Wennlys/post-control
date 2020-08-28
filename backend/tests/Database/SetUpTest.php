@@ -60,7 +60,11 @@ class SetUpTest extends TestCase
 
             INSERT INTO articles (user_id, title, slug, body, published, created_at, updated_at)
             VALUES
-            (1, 'First Post', 'first-post', 'This is the first post.', 1, date('now'), date('now'));"
+            (1, 'First Post', 'first-post', 'This is the first post.', 1, date('now'), date('now'));
+
+            INSERT INTO articles (user_id, title, slug, body, published, created_at, updated_at)
+            VALUES
+            (1, 'Second Post', 'second-post', 'This is the second post.', 1, date('now'), date('now'));"
         );
 
         $this->expectNotToPerformAssertions();

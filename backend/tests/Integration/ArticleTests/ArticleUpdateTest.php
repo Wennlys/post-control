@@ -11,7 +11,7 @@ class ArticleUpdateTest extends IntegrationTestCase
 {
     private const CASES = [
         [
-            'id' => 1,
+            'id' => 2,
             'user_id' => 1,
             'title' => 'Test Post',
             'body' => 'This is a test post.',

@@ -16,7 +16,7 @@ class ArticleShowTest extends IntegrationTestCase
 
     public function testShowingArticleById()
     {
-        $response = $this->request([], ['id' => 1]);
+        $response = $this->request([], ['id' => 2]);
         $this->assertTrue($response['success']);
     }
 
