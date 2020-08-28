@@ -40,8 +40,10 @@ class ArticleStoreTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function emailsAreUnique(): void
+    public function emailsAndSlugsAreUnique(): void
     {
+        $response = $this->request(self::CASES[0]);
+        $this->assertFalse($response['success']);
         $response = $this->request(self::CASES[0]);
         $this->assertFalse($response['success']);
     }
